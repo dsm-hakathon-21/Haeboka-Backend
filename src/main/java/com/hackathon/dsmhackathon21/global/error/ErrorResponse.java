@@ -11,13 +11,11 @@ import java.time.LocalDateTime;
 public record ErrorResponse(
         int status,
         String message,
-        String viewMessage,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "Asia/Seoul")
         LocalDateTime timestamp,
         String path,
         String exception,
-        String detail,
-        String cause
+        String detail
 ) {
     public static ResponseEntity<ErrorResponse> ofCustomException(CustomException e, ServerHttpRequest request) {
         var error = e.getError();
@@ -25,25 +23,21 @@ public record ErrorResponse(
                 .body(new ErrorResponse(
                         error.getStatus(),
                         error.getMessage(),
-                        error.getViewMessage(),
                         LocalDateTime.now(),
                         request.getPath().toString(),
                         e.getClass().getSimpleName(),
-                        error.getDetail(),
-                        e.getCause() != null ? e.getCause().toString() : "Not yet."
+                        error.getDetail()
                 ));
     }
 
-    public static ErrorResponse ofSecurityError(HttpStatus status, String message, String viewMessage, ServerWebExchange exchange, Exception e) {
+    public static ErrorResponse ofSecurityError(HttpStatus status, String message, ServerWebExchange exchange, Exception e) {
         return new ErrorResponse(
                 status.value(),
                 message,
-                viewMessage,
                 LocalDateTime.now(),
                 exchange.getRequest().getPath().toString(),
                 e.getClass().getSimpleName(),
-                e.getMessage(),
-                e.getCause() != null? e.getCause().toString() : "Not yet."
+                e.getMessage()
         );
     }
 }
