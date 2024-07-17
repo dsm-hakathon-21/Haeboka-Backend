@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/translate")
 @RequiredArgsConstructor
 public class TranslationController {
-
     private final TranslationService translationService;
 
     @PostMapping
