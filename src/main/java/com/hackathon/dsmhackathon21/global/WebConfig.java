@@ -1,4 +1,4 @@
-package com.hackathon.dsmhackathon21.global.security.config;
+package com.hackathon.dsmhackathon21.global;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.CorsRegistry;
